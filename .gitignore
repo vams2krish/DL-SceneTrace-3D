@@ -18,3 +18,12 @@ __pycache__/
 node_modules/
 .DS_Store
 Thumbs.db
+*.egg-info/
+.pytest_cache/
+.sites-publish/
+.sites-runtime/
+demo/.sites-runtime/
+build/
+dist/
+!demo/dist/
+!demo/dist/**

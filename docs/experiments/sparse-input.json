@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "dataset": "Procedural textured 3D patches; synthetic, seed 21",
+  "counts": [
+    4,
+    6,
+    9
+  ],
+  "input_control": "Same scene, fixed camera arc, evenly selected camera indices; no real media.",
+  "caveat": "Four/six views have no holdout; nine views exclude two captures from SfM and fitting. No held-out localization or geometry validation.",
+  "runs": [
+    {
+      "input_views": 4,
+      "status": "succeeded",
+      "metrics": {
+        "train_mse_before": 0.0628087685954196,
+        "train_mse_after": 0.04153321896284761,
+        "solver_success": [
+          true,
+          true,
+          true
+        ],
+        "backend": "cpu-fixed-isotropic-gaussian-rgb-v1",
+        "optimized": [
+          "RGB"
+        ],
+        "fixed": [
+          "positions",
+          "isotropic scales",
+          "opacity"
+        ],
+        "registered_cameras": 4,
+        "selected_views": 4,
+        "triangulated_points": 4934,
+        "elapsed_seconds": 80.65600000001723,
+        "heldout_evaluation": "Not available: held-out views are excluded from SfM; independent localization is not implemented.",
+        "geometry_evaluation": "Not available: no independent scale reference supplied.",
+        "scene_sha256": "876ed97d276b7c9820e91749a5a2eda1b85f836f94f62444aa06b6e4d4a3ddfe"
+      },
+      "camera_alignment": {
+        "camera_center_rmse_synthetic_units": 0.000527964114441585,
+        "rmse_over_camera_baseline": 0.0004044431504326653,
+        "alignment": "Similarity alignment fitted to the same registered training camera centers",
+        "caveat": "Training-pose diagnostic, not held-out or real-world geometry accuracy."
+      }
+    },
+    {
+      "input_views": 6,
+      "status": "succeeded",
+      "metrics": {
+        "train_mse_before": 0.05642094286042928,
+        "train_mse_after": 0.03260828247484197,
+        "solver_success": [
+          true,
+          true,
+          true
+        ],
+        "backend": "cpu-fixed-isotropic-gaussian-rgb-v1",
+        "optimized": [
+          "RGB"
+        ],
+        "fixed": [
+          "positions",
+          "isotropic scales",
+          "opacity"
+        ],
+        "registered_cameras": 6,
+        "selected_views": 6,
+        "triangulated_points": 7444,
+        "elapsed_seconds": 26.39100000000326,
+        "heldout_evaluation": "Not available: held-out views are excluded from SfM; independent localization is not implemented.",
+        "geometry_evaluation": "Not available: no independent scale reference supplied.",
+        "scene_sha256": "108f95dae15ef56615616eadc23c80379984b3a73680200cc1e3f5058036679f"
+      },
+      "camera_alignment": {
+        "camera_center_rmse_synthetic_units": 0.0009231792587994386,
+        "rmse_over_camera_baseline": 0.0007071948975885341,
+        "alignment": "Similarity alignment fitted to the same registered training camera centers",
+        "caveat": "Training-pose diagnostic, not held-out or real-world geometry accuracy."
+      }
+    },
+    {
+      "input_views": 9,
+      "status": "succeeded",
+      "metrics": {
+        "train_mse_before": 0.05539114759416805,
+        "train_mse_after": 0.0292229134394855,
+        "solver_success": [
+          true,
+          true,
+          true
+        ],
+        "backend": "cpu-fixed-isotropic-gaussian-rgb-v1",
+        "optimized": [
+          "RGB"
+        ],
+        "fixed": [
+          "positions",
+          "isotropic scales",
+          "opacity"
+        ],
+        "registered_cameras": 7,
+        "selected_views": 9,
+        "triangulated_points": 8521,
+        "elapsed_seconds": 48.328000000008615,
+        "heldout_evaluation": "Not available: held-out views are excluded from SfM; independent localization is not implemented.",
+        "geometry_evaluation": "Not available: no independent scale reference supplied.",
+        "scene_sha256": "0ddbef09cd3ad57d75600fa9b62fffa2236060b77a572601274fd357409e1137"
+      },
+      "camera_alignment": {
+        "camera_center_rmse_synthetic_units": 0.0008590915040940082,
+        "rmse_over_camera_baseline": 0.000755153381613303,
+        "alignment": "Similarity alignment fitted to the same registered training camera centers",
+        "caveat": "Training-pose diagnostic, not held-out or real-world geometry accuracy."
+      }
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "test": "Live subprocess failure on duplicate media",
+  "status": "passed",
+  "job_status": "failed",
+  "error": "At least four distinct sharp views are required; add overlapping viewpoints",
+  "queue_released": true,
+  "placeholder_scene_substitution": false
+}

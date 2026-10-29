@@ -1,0 +1,38 @@
+{
+  "train_mse_before": 0.0037931624393396134,
+  "train_mse_after": 1.5826360753570485e-06,
+  "solver_success": [
+    true,
+    true,
+    true
+  ],
+  "backend": "cpu-fixed-isotropic-gaussian-rgb-v1",
+  "optimized": [
+    "RGB"
+  ],
+  "fixed": [
+    "positions",
+    "isotropic scales",
+    "opacity"
+  ],
+  "heldout": [
+    {
+      "view": "view-02",
+      "mse": 2.610492707366869e-06,
+      "psnr_db": 55.832775156900986
+    },
+    {
+      "view": "view-06",
+      "mse": 1.821498748983266e-06,
+      "psnr_db": 57.3957112269813
+    }
+  ],
+  "heldout_psnr_db": 56.61424319194114,
+  "training_views": 6,
+  "heldout_views": 2,
+  "gaussians": 1789,
+  "seed": 17,
+  "elapsed_seconds": 10.3,
+  "geometry_evaluation": "Known synthetic geometry supplied, not estimated; no real-scene geometry benchmark.",
+  "evaluation_caveat": "Same renderer generates and fits targets; this is an optimizer smoke test, not an independent photogrammetry benchmark."
+}

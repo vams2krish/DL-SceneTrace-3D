@@ -1,128 +1,220 @@
 # SceneTrace 3D
 
-### DL / Computer Vision — Forensic & Historical Scene Reconstruction
+### Computer Vision · Gaussian Splatting · Forensic & Historical Reconstruction Research
 
-![SceneTrace 3D concept illustration](docs/assets/scenetrace-concept.png)
+[Live review demo](https://scenetrace-3d-vams2krish.adam-vamshikrishna.chatgpt.site) · [Operations and security boundaries](docs/OPERATIONS.md) · [Dependency attribution](docs/THIRD_PARTY.md) · [Measured experiments](docs/experiments/sparse-input.json)
 
-*AI-generated project concept illustration; not a reconstruction result, evidence image, or working application screenshot.*
+**SceneTrace 3D turns overlapping photos or video frames into a source-linked 3D research artifact.** Inventory original media, select derivatives, estimate cameras with COLMAP, fit Gaussian colors, inspect the result in a WebGL viewer, separate observations from hypotheses, and export review records.
 
-**SceneTrace 3D** is a proposed research agent for organizing limited photographs and video clips into navigable 3D representations of crime scenes and historical locations using **3D Gaussian Splatting (3DGS)**. Its intended role is to help investigators and researchers inspect spatial relationships, compare viewpoints, and track how a reconstruction relates to its source material.
+> **Release v0.2.0: working research demo and local single-user service.** The hosted Site is a private-to-owner static review demo. Actual media reconstruction runs through the local Python service. This is not a certified forensic tool or a production-ready multiuser service. No real case data is published here.
 
-> **Status: documentation and design concept.** This repository currently contains the project specification and illustration. It does not contain a working reconstruction agent, trained model, viewer, benchmark results, or validated forensic system. Every capability described below is planned unless explicitly identified as repository content.
+![SceneTrace workbench running locally](docs/showcase/01-workbench.jpg)
 
-## Is this ML, DL, or Generative AI?
+*Actual application screenshot with a procedural synthetic Gaussian room. This is not a real scene or a photorealistic reconstruction benchmark.*
 
-**Portfolio category: DL / Computer Vision / 3D Reconstruction.** Deep learning is a subset of machine learning, so ML also applies broadly. The planned system may use learned image features or depth priors alongside differentiable scene optimization.
+## Product showcases
 
-There is an important technical distinction: original 3DGS directly optimizes explicit Gaussian scene parameters through differentiable rendering; it does **not inherently require a deep neural network**. A version built only from classical structure-from-motion and original 3DGS is more precisely described as **computer vision and differentiable rendering**. The DL label describes the intended broader research direction, not an implemented neural architecture in this repository.
+### Source inventory and provenance
 
-Novel-view synthesis generates images from new viewpoints, but this project is not primarily an LLM or text-to-3D Generative AI project. Any future generative completion must be separately labeled as a hypothesis and excluded from evidence-derived reconstruction claims.
+Choose local media, compute SHA-256 hashes, and submit explicitly to the local worker. Originals remain separate from selected image derivatives.
 
-## Problem and intended value
+![Local media inventory with real calculated source hashes](docs/showcase/04-source-inventory.jpg)
 
-Scene documentation may consist of incomplete image sets, videos with blur or compression, uncertain camera parameters, and photographs taken at different times. A 3D representation could make those materials easier to explore, while a provenance record could keep the source and processing history inspectable.
+### Validation with held-out comparisons
 
-Limited input does not guarantee a recoverable scene. Reliable reconstruction needs sufficient overlap, viewpoint diversity, stable visual features, and a scene that is reasonably consistent across observations. A single photograph cannot uniquely establish hidden geometry. SceneTrace should report insufficient coverage rather than fabricate missing surfaces.
+Inspect the synthetic observation and fitted Gaussian render side by side, read the actual metrics, and keep evaluation caveats visible.
 
-## Planned use cases
+![Held-out appearance comparison and limitations](docs/showcase/02-validation.jpg)
 
-- **Scene review:** inspect reconstructed spaces from alternative viewpoints and link annotations to source frames.
-- **Spatial analysis:** compare visible object arrangements; enable measurements only after independent scale calibration and validation.
-- **Historical research:** visualize documented architecture or locations while separating observations from interpretive restoration.
-- **Training and education:** work with staged scenes, synthetic scenes, or appropriately licensed public datasets.
-- **Hypothesis comparison:** maintain distinct analyst-created scenario layers with explicit assumptions and provenance.
+### Separate observation and hypothesis layers
 
-A static reconstruction alone cannot establish an event sequence, identify a perpetrator, infer intent, or determine what happened in an unseen region. Historical event animation would require additional evidence and a separate hypothesis model.
+Notes reference specific source views and persist per scene in browser storage. Both layers are included in the review JSON export.
 
-## Proposed workflow
+![Observation and hypothesis notes in the running product](docs/showcase/03-review-notes.jpg)
+
+### Actual browser-to-COLMAP output
+
+The browser uploaded nine synthetic textured captures, the local worker recovered cameras and sparse geometry, fitted Gaussian colors, and returned this navigable artifact. The sparse appearance is an actual output limitation, not concealed by substituting the synthetic room.
+
+![Completed local COLMAP reconstruction from browser-submitted captures](docs/showcase/05-colmap-result.jpg)
+
+### Responsive review
+
+<img src="docs/showcase/06-mobile.jpg" alt="Actual mobile breakpoint screenshot of the reconstruction review interface" width="340">
+
+All showcase images above are screenshots of the running product. The [original AI-generated concept banner](docs/assets/scenetrace-concept.png) is retained separately with its [prompt and disclosure](docs/illustration-prompt.md); it is not a product result.
+
+## What works today
+
+| Capability | Implemented behavior |
+| --- | --- |
+| Source inventory | SHA-256, source-byte counts, stable source IDs, decode failure records |
+| Frame preparation | JPEG/PNG/WebP; OpenCV video extraction; interval and candidate budget; normalized PNG derivatives |
+| Selection decisions | Laplacian sharpness heuristic and exact normalized-pixel duplicate detection, recorded per candidate |
+| Camera recovery | CPU PyCOLMAP feature extraction, exhaustive matching, incremental mapping, camera export |
+| Gaussian reconstruction | Original CPU backend with fixed isotropic geometry/scales/opacity and bounded least-squares RGB fitting |
+| Synthetic evaluation | Seeded 1,789-Gaussian room, six training views and two held-out views, PSNR and train MSE |
+| Review UI | Orbit/zoom, point mode, camera navigation, source hashes, validation comparisons, responsive layout |
+| Review notes | Source-linked observations and hypotheses; scene-specific browser persistence; removal and export |
+| Local job service | One active subprocess, ten-minute deadline, persisted success/failure, review ZIP export |
+| Hosted demo | Static deployment with committed synthetic artifacts, local hashing, JSON import, notes and exports |
+| Verification | Eight automated tests, live browser upload-to-result run, live duplicate-input failure check, CI workflow |
+
+## Run the demo locally
+
+Use **Python 3.12** for the tested environment. No OpenAI key, external AI API, GPU, COLMAP executable, Node dependency installation, or FFmpeg executable is required. PyCOLMAP and OpenCV wheels supply the used functionality.
+
+```powershell
+git clone https://github.com/vams2krish/DL-SceneTrace-3D.git
+cd DL-SceneTrace-3D
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements-lock.txt
+.\.venv\Scripts\python.exe -m pip install --no-deps -e .
+.\.venv\Scripts\python.exe -m scenetrace.cli serve
+```
+
+Open **http://127.0.0.1:8765/**. On Linux/macOS, replace `.\.venv\Scripts\python.exe` with `.venv/bin/python`.
+
+1. Explore the synthetic room, select source thumbnails, and compare held-out views in **Validation**.
+2. Add an observation and a hypothesis in **Review notes**, reload, and export the review JSON.
+3. In **Source inventory**, choose 4–40 overlapping photos or a video. Up to 40 files and 90 MiB of source bytes are accepted by the local UI.
+4. Submit **Run local reconstruction**. The worker requires at least four distinct, sufficiently sharp derivative views. Registration can fail when overlap or texture is inadequate.
+5. Inspect the returned scene, source records, and limitations. Download the worker review bundle. Failed jobs expose their reason instead of substituting a demo scene.
+
+The hosted Site runs the review functions without a Python server. Its reconstruction control remains unavailable; it does not upload files or run COLMAP in the cloud. Scene JSON can be imported there, but its relative source-image links require the local service or a corresponding artifact directory; imported JSON does not embed source media. This release accepts its own schema, not arbitrary `.ply` or `.splat` files.
+
+## Reproduce the complete synthetic photo pipeline
+
+```powershell
+# Make perspective photographs of textured synthetic 3D patches.
+.\.venv\Scripts\python.exe scripts/generate_sfm_fixture.py data/sfm-input
+
+# Inventory only, with explicit derivative selection parameters.
+.\.venv\Scripts\python.exe -m scenetrace.cli inventory data/sfm-input data/inventory-run --max-frames 40
+
+# Recover cameras and geometry from pixels, then fit Gaussian RGB.
+.\.venv\Scripts\python.exe -m scenetrace.cli reconstruct data/sfm-input data/reconstruction-run
+
+# Independently regenerate the supplied-camera appearance-fitting demo.
+.\.venv\Scripts\python.exe -m scenetrace.cli demo data/gaussian-demo-run
+
+# Controlled 4/6/9-view experiment; work directory must be new.
+.\.venv\Scripts\python.exe scripts/sparse_experiment.py --work data/experiment-new
+
+# With the local server running: verify a real subprocess failure and queue release.
+.\.venv\Scripts\python.exe scripts/verify_local_api.py
+
+.\.venv\Scripts\python.exe -m pytest -q
+```
+
+Outputs are never silently overwritten by the inventory/reconstruction commands; choose a new output directory for reruns. The Gaussian demo command regenerates its explicitly selected demo destination. CLI inventory supports `--interval` in seconds and `--max-frames` (candidate budget, including rejected candidates).
+
+## Measured output
+
+### Gaussian optimizer experiment
+
+| Measurement | Observed result |
+| --- | --- |
+| Scene | Procedural archive room; seed 17 |
+| Gaussians | 1,789 |
+| Training / held-out views | 6 / 2 |
+| Training MSE before → after | 0.00379316 → 0.00000158 |
+| Mean held-out PSNR | 56.61 dB |
+| RGB solver success | All three channels |
+
+See [committed metrics](demo/dist/sample/metrics.json), [scene artifact](demo/dist/sample/scene.json), and [generator](scenetrace/demo.py).
+
+**Interpretation:** cameras, geometry, scale, and opacity are supplied by the synthetic generator. Only colors are fitted. The same renderer generates and evaluates observations; the score is an optimizer smoke test and does not predict real-scene reconstruction quality.
+
+### Camera recovery from rendered photographs
+
+These experiments use a separate seed-21 textured 3D-patch fixture. Camera poses are estimated from the image pixels through COLMAP; ground-truth poses are not passed to reconstruction.
+
+| Input captures | Cameras registered | Triangulated points | Train MSE after RGB fit |
+| --- | --- | --- | --- |
+| 4 | 4 | 4,934 | 0.04153 |
+| 6 | 6 | 7,444 | 0.03261 |
+| 9 | 7 | 8,521 | 0.02922 |
+
+The nine-view run excludes two images from both SfM and fitting. Independent localization of those held-out images is not implemented, so no held-out score is claimed for these reconstructions. Four/six-view runs use all selected views. The [full report](docs/experiments/sparse-input.json) includes runtime and similarity-aligned camera-center diagnostics. Alignment is fitted to the same training camera centers; it is not independent geometry validation. Timings depend on the host and are not throughput claims.
+
+A separate live browser run also registered seven cameras from nine uploaded synthetic images and produced a downloadable worker bundle. [Live duplicate-media failure report](docs/experiments/api-failure.json) verifies that inadequate distinct views fail explicitly and release the worker slot.
+
+## How reconstruction works
 
 ```mermaid
 flowchart LR
-    A[Photos and video] --> B[Inventory and hashes]
-    B --> C[Frame selection and quality review]
-    C --> D[Camera poses and sparse geometry]
-    D --> E[Gaussian scene optimization]
-    E --> F[Held-out views and geometry checks]
-    F --> G[Viewer and source-linked annotations]
-    G --> H[Review bundle and limitations]
+    A[Original photos or videos] --> B[SHA-256 inventory]
+    B --> C[Frame derivatives and quality decisions]
+    C --> D[CPU COLMAP camera and sparse point recovery]
+    D --> E[Fixed isotropic Gaussian initialization]
+    E --> F[Bounded least-squares RGB fitting]
+    F --> G[Scene JSON and validation records]
+    G --> H[WebGL review and source-linked notes]
+    H --> I[Review JSON or worker ZIP]
 ```
 
-1. **Ingest and inventory:** preserve source bytes, record SHA-256 hashes, acquisition notes, available metadata, access permissions, and case identifiers. Hashes detect byte changes; they do not prove source authenticity or establish chain of custody on their own.
-2. **Prepare derivatives:** extract timestamped frames from video, identify duplicate or blurred views, and document every transform. Keep derivative files separate from originals.
-3. **Estimate cameras:** use a structure-from-motion pipeline such as COLMAP to estimate camera poses and sparse points. Review registration failures, reprojection errors, and disconnected components.
-4. **Optimize the scene:** initialize Gaussian positions from sparse geometry, then optimize position, shape, opacity, and appearance against training views through differentiable rendering. Split inconsistent captures into separate reconstruction sessions.
-5. **Evaluate:** reserve independent views, compare renderings to observations, and test geometry against surveyed references where available. Flag weak coverage and failed runs.
-6. **Inspect and annotate:** provide a navigable viewer with source links, camera locations, observation coverage, and separate hypothesis layers.
-7. **Export for review:** package configuration, software versions, hashes, input selection, logs, validation results, model artifacts, and known limitations.
+The CPU backend projects Gaussian centers, approximates screen-space isotropic footprints, sorts by depth, and composites front to back. With positions, scales, and opacity fixed, pixel color is linear in Gaussian RGB, so bounded sparse least squares can fit appearance without a neural network or CUDA. A small color prior stabilizes weakly observed splats.
 
-## Planned agent responsibilities
+It does **not** optimize Gaussian positions, full covariance, opacity, spherical harmonics, or adaptive densification. The WebGL preview uses depth-sorted point sprites and is approximate; CPU render outputs are used for reported evaluation. Photo reconstruction is capped at 1,600 splats and fitted at 96×96, so it is a small research baseline with visibly incomplete detail.
 
-The agent would coordinate explicit tools and record their outputs: inventory media, propose frame selections, run reconstruction jobs, summarize failures, assemble review materials, and request analyst decisions when a scene cannot be reliably reconstructed. It should never silently replace evidence, hide failed registrations, or present inferred content as observed fact.
+## Is it ML, DL, or Generative AI?
 
-## Candidate technology stack
+The implemented release is **computer vision + numerical optimization + differentiable-rendering-inspired Gaussian splatting**. It contains no trained deep neural network, pretrained weights, LLM, or Generative AI scene completion. The `DL-SceneTrace-3D` repository name preserves the original proposed DL direction; **DL extensions remain roadmap work**.
 
-| Layer | Proposed tools | Purpose |
-| --- | --- | --- |
-| Media preparation | Python, FFmpeg | Frame extraction and quality assessment |
-| Camera recovery | COLMAP | Camera calibration, poses, sparse geometry |
-| Reconstruction | PyTorch-compatible 3DGS implementation | Differentiable Gaussian optimization |
-| Acceleration | Compatible GPU and backend toolchain | Scene optimization and rendering |
-| Service layer | FastAPI | Job submission and artifact access |
-| Review UI | React, Three.js, compatible splat renderer | Navigation and annotations |
-| Provenance | JSON manifests, SHA-256, structured logs | Reproducible processing records |
+Original 3D Gaussian Splatting optimizes an explicit scene representation and does not inherently require a deep network. Novel-view synthesis is not evidence of hidden geometry or event history. Any future learned depth/features or generative hypothesis layers must be identified and evaluated separately.
 
-These are design candidates, not installed or integrated dependencies. GPU memory and runtime requirements must be measured on the selected backend and representative datasets. Review each upstream license before integrating or distributing code, weights, or datasets; a research implementation may have use restrictions.
+## Data, provenance, and limits
 
-## Evaluation plan
+- Hashes detect changes in bytes; they do not authenticate the source or establish chain of custody.
+- Source media stays separate from normalized derivatives. Available source content is not silently altered.
+- Sharpness and coverage diagnostics are heuristics, not calibrated correctness probabilities.
+- Static scene capture cannot establish event sequence, intent, identity, or what happened outside observed areas.
+- Real-world scale and measurement accuracy require independent references. Gaussian appearance is not a validated physical surface or watertight mesh.
+- Moving objects, reflective surfaces, weak texture, and inconsistent capture times can invalidate reconstruction assumptions.
+- Do not publish actual case files or identifying metadata. `data/`, media outputs, local secrets, and model files are ignored by Git.
+- The local worker ZIP contains review JSON and submitted-name mapping; originals, derivative images, worker logs, and COLMAP binary files stay in the local job directory.
+- Browser notes are local, removable, and exportable; this is not a tamper-evident evidence management system.
 
-| Question | Proposed evidence |
-| --- | --- |
-| Does it match unseen photographs? | Held-out-view PSNR and SSIM; optionally LPIPS with its model/version recorded |
-| Is geometry accurate? | Errors against independently surveyed distances or reference geometry, after scale alignment |
-| How much of the scene is supported? | Registered-camera coverage and documented unobserved regions |
-| Does it work with sparse inputs? | Controlled view-count and viewpoint-diversity experiments |
-| Can another analyst reproduce it? | Recorded versions, parameters, random seeds, manifests, and rerun comparisons |
-| Is interactive review practical? | Measured frame rate, load time, artifact size, and GPU memory on named hardware |
+Read [OPERATIONS.md](docs/OPERATIONS.md) for implemented controls, recovery, retention, and production release gates. The loopback service must not be exposed as a public multiuser backend.
 
-No scores or performance claims are available yet. Image similarity does not establish measurement accuracy or evidentiary reliability. Coverage maps and residuals are diagnostic indicators, not calibrated probability estimates of correctness.
+## Roadmap and release boundary
 
-## Limitations and investigative use
+- [x] Source inventory and original-media hashing.
+- [x] Still/video derivative selection with recorded blur and duplicate decisions.
+- [x] Reproducible CPU COLMAP integration and failure reporting.
+- [x] Original license-independent CPU Gaussian RGB baseline and staged synthetic demo.
+- [x] Held-out appearance evaluation for supplied synthetic cameras.
+- [x] Source-linked WebGL review, separate hypothesis notes, and exports.
+- [x] Controlled sparse-input experiments on synthetic photographs.
+- [x] Automated checks, live browser flow, real screenshots, and hosted review demo.
+- [ ] Full anisotropic Gaussian geometry/opacity optimization and densification.
+- [ ] Independent held-out camera localization for uploaded scenes.
+- [ ] Surveyed scale, independent geometry evaluation, and calibrated uncertainty.
+- [ ] Optional learned features/depth with explicit DL evaluation.
+- [ ] Persistent authenticated multiuser case storage, sandboxed GPU workers, access auditing, backups, and retention controls.
+- [ ] Independent security/accessibility review and real-data performance evaluation.
+- [ ] Qualified forensic review before operational or evidentiary use.
 
-- Sparse views, occlusions, reflective surfaces, low texture, moving objects, and lighting changes can produce incomplete or misleading renderings.
-- Gaussian appearance is not automatically a watertight surface, physical simulation, or metrically accurate mesh.
-- Absolute scale generally requires independently known measurements or calibrated capture information.
-- Captures from different times do not necessarily describe the same scene state; do not merge them into a single asserted event without review.
-- Record uncertainty, alternatives, failed processing, and source coverage alongside every reviewed reconstruction.
-- Use authorized, non-sensitive demonstration media in this public repository. Store actual case material and identifying metadata in an appropriately controlled environment.
-- Operational, legal, or evidentiary use would require independent validation, qualified human review, and applicable institutional procedures. This concept makes no certification or admissibility claim.
-
-## Roadmap
-
-- [x] Define the research scope, classification, limitations, and documentation.
-- [x] Add a clearly labeled project illustration.
-- [ ] Build a local media inventory and provenance manifest tool.
-- [ ] Integrate frame selection and COLMAP with reproducible configuration.
-- [ ] Integrate a license-reviewed 3DGS backend on a staged scene.
-- [ ] Add held-out-view and independently scaled geometry evaluation.
-- [ ] Build a source-linked viewer with separate hypothesis annotations.
-- [ ] Conduct sparse-input experiments and publish reproducible results.
-- [ ] Seek independent domain review before any operational deployment.
-
-## Repository contents and getting started
+## Repository map
 
 ```text
-README.md                         Project specification and research plan
-docs/assets/scenetrace-concept.png Concept illustration
-docs/illustration-prompt.md        Illustration prompt and disclosure
-.gitignore                        Excludes local media, models, and secrets
+scenetrace/             Media inventory, COLMAP pipeline, Gaussian backend, CLI, API
+scripts/                Synthetic generators, sparse experiment, live failure check
+tests/                  Integrity, media, numerical, API, and export tests
+demo/dist/              Dependency-free hosted/browser application and sample artifacts
+demo/.openai/           Sites hosting identity and static deployment configuration
+docs/showcase/          Six screenshots of the running application
+docs/experiments/       Actual sparse-input results and live failure report
+docs/OPERATIONS.md      Local service boundaries and production release gates
+requirements-lock.txt   Exact tested Python dependency versions
+.github/workflows/      CI checks for code and tests
 ```
-
-There is currently no installation, training, or inference command. To begin implementation, select an upstream backend and check its license, establish a staged or licensed dataset, define independent validation references, and implement the provenance tool first. Do not interpret roadmap checkboxes as implemented functionality.
 
 ## Research foundations
 
-- Kerbl, Kopanas, Leimkühler, and Drettakis (2023), [3D Gaussian Splatting for Real-Time Radiance Field Rendering](https://arxiv.org/abs/2308.04079). The paper describes explicit Gaussian scene optimization and visibility-aware splatting.
-- [COLMAP tutorial](https://colmap.github.io/tutorial.html) — camera poses and sparse scene recovery through structure-from-motion.
-- [COLMAP source and documentation](https://github.com/colmap/colmap) — upstream implementation, setup information, and licensing.
+- Kerbl, Kopanas, Leimkühler, and Drettakis (2023), [3D Gaussian Splatting for Real-Time Radiance Field Rendering](https://arxiv.org/abs/2308.04079).
+- [COLMAP tutorial](https://colmap.github.io/tutorial.html) and [PyCOLMAP documentation](https://colmap.github.io/pycolmap/index.html).
+- [Upstream source attribution and integration notes](docs/THIRD_PARTY.md).
 
-This repository describes an independent project concept and does not imply endorsement by these research authors or upstream projects.
+This is an independent research project. No certification, upstream endorsement, or admissibility claim is made.
