@@ -105,12 +105,28 @@ def health():
 
 @app.get("/api/public-test")
 def public_test():
+    result=STORE/'crossrow'/'calibration-rerun'
+    if (result/'scene.json').exists():
+        metrics=json.loads((result/'metrics.json').read_text())
+        poor=metrics['registered_cameras']<4 or metrics['registered_cameras']/max(1,metrics['sfm_input_views'])<0.5
+        return {'id':'local-calibration-rerun','status':'succeeded','quality':'insufficient_coverage' if poor else 'unvalidated',
+                'scene':'/api/public-test/assets/scene.json','asset_base':'/api/public-test/assets/',
+                'dataset':'CrossRow: Multimodal Spatial Indoor Crime Scene Dataset','license':'CC BY-NC-ND 4.0'}
     pointer=STORE/'crossrow'/'latest-job.json'
     if not pointer.exists():
         raise HTTPException(404,"No public-photo experiment has been run locally")
     record=json.loads(pointer.read_text())
     path=job_path(record['id'])
     return dict(json.loads((path/'status.json').read_text()),dataset=record['dataset'],license=record['license'])
+
+
+@app.get('/api/public-test/assets/{asset:path}')
+def public_test_asset(asset: str):
+    root=(STORE/'crossrow'/'calibration-rerun').resolve()
+    target=(root/asset).resolve()
+    if root not in target.parents or not target.is_file() or target.suffix not in ('.json','.png'):
+        raise HTTPException(404,'Unknown experiment artifact')
+    return FileResponse(target)
 
 
 @app.post("/api/jobs", status_code=202)

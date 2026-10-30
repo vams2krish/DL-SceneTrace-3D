@@ -22,6 +22,20 @@ Each downloaded JPEG was checked against its ZIP CRC32; individual SHA-256 value
 
 The [first live API attempt](docs/experiments/crossrow-128-first-attempt.json) accepted all 128 files but failed COLMAP initialization. It produced no valid model. The pipeline was then improved to retain approximate EXIF focal-length priors in the inventory and share camera intrinsics only when model, focal prior, and derivative dimensions agree. The [latest numerical report](docs/experiments/crossrow-128.json) records the actual latest outcome; it is not substituted with the synthetic room.
 
+The calibrated CLI rerun completed on the same original bytes with the following **insufficient-coverage** result:
+
+| Real-photo measurement | Actual output |
+| --- | --- |
+| Original / selected photos | 128 / 128 |
+| SfM input / withheld photos | 102 / 26 |
+| Registered cameras | **3 of 102** |
+| Triangulated points | **39** |
+| Views used for Gaussian RGB fit | 3 |
+| Train MSE before → after | 0.23480 → 0.23299 |
+| Result | **Partial artifact; not a usable reconstruction of the full scene** |
+
+The live local review exposes that limited artifact with an insufficient-coverage warning, plus a gallery of the genuine camera-photo derivatives. No held-out camera localization or independently surveyed geometry accuracy is claimed. More camera registration and a stronger reconstruction backend are required before this dataset can become a useful full-scene 3D demo.
+
 The CrossRow resource is licensed **CC BY-NC-ND 4.0**. The photographs and adapted reconstruction remain in ignored local storage for noncommercial research; the public repository publishes code, attribution, original-source checksums, and numerical reports only. The hosted Site does not redistribute this scene. After a local run, open **http://127.0.0.1:8765/?dataset=crossrow** or select **Open public-photo test result**. A failed run displays its failure instead of a replacement scene.
 
 ```powershell
@@ -70,6 +84,8 @@ The browser uploaded nine synthetic textured captures, the local worker recovere
 
 All showcase images above are screenshots of the running product. The [original AI-generated concept banner](docs/assets/scenetrace-concept.png) is retained separately with its [prompt and disclosure](docs/illustration-prompt.md); it is not a product result.
 
+Browser/Windows screenshot automation could not initialize during the department redesign, so fresh v0.3 screenshots and visual QA are not claimed. The HTTP-served HTML/logo and static JavaScript checks were verified; the historical gallery is explicitly labeled v0.2.
+
 ## What works today
 
 | Capability | Implemented behavior |
@@ -82,9 +98,9 @@ All showcase images above are screenshots of the running product. The [original 
 | Synthetic evaluation | Seeded 1,789-Gaussian room, six training views and two held-out views, PSNR and train MSE |
 | Review UI | Orbit/zoom, point mode, camera navigation, source hashes, validation comparisons, responsive layout |
 | Review notes | Source-linked observations and hypotheses; scene-specific browser persistence; removal and export |
-| Local job service | One active subprocess, ten-minute deadline, persisted success/failure, review ZIP export |
+| Local job service | One active subprocess, thirty-minute deadline, persisted success/failure, preserved-original retry, review ZIP export |
 | Hosted demo | Static deployment with committed synthetic artifacts, local hashing, JSON import, notes and exports |
-| Verification | Eight automated tests, live browser upload-to-result run, live duplicate-input failure check, CI workflow |
+| Verification | Automated integrity/API tests, v0.2 live browser flow, 128-real-photo intake, preserved failure and insufficient-coverage reports, CI workflow |
 
 ## Run the demo locally
 

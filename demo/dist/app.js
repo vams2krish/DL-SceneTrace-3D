@@ -81,14 +81,38 @@ async function loadPublicTest(){
       showTab('evidence');$('job-status').hidden=false;
       text('job-status',`PUBLIC-PHOTO TEST: ${info.status.toUpperCase()}. ${info.error||'Processing has not produced a scene yet.'} No valid reconstruction is displayed for this test.`);
       $('job-status').classList.toggle('error',info.status==='failed');
-      try{const response=await fetch(`/api/jobs/${info.id}/assets/manifest.json`);if(response.ok){const manifest=await response.json();fileRecords=manifest.sources;renderInventory();}}catch{}
+      try{const response=await fetch(`/api/jobs/${info.id}/assets/manifest.json`);if(response.ok){const manifest=await response.json();fileRecords=manifest.sources;renderInventory();renderPublicGallery(manifest,info.id);}}catch{}
       toast(`Public-photo test: ${info.status}. No substitute scene is used.`,true);return;
     }
     const result=await fetch(info.scene);if(!result.ok)throw Error('Reconstruction artifact unavailable.');
-    const value=await result.json();value.dataset=info.dataset;value.license=info.license;jobId=info.id;
+    const value=await result.json();value.dataset=info.dataset;value.license=info.license;jobId=info.asset_base?null:info.id;
+    if(info.quality==='insufficient_coverage'){
+      value.limitations.unshift(`INSUFFICIENT COVERAGE: only ${value.metrics.registered_cameras} of ${value.metrics.sfm_input_views} SfM input views registered. This partial artifact is not a usable reconstruction of the entire scene.`);
+      value.metrics.quality_status='insufficient_coverage';
+    }
     value.limitations.push('CrossRow: real photographs of a simulated crime scene; not an actual criminal case.','CC BY-NC-ND 4.0: local noncommercial research; scene media and adapted output are not republished.');
-    await loadScene(value,`/api/jobs/${info.id}/assets/`);showTab('workspace');
-    toast('128 original CrossRow photographs processed. Inspect actual registration counts and limitations.');
+    await loadScene(value,info.asset_base||`/api/jobs/${info.id}/assets/`);renderPublicGallery(value.manifest,info.id,info.asset_base);showTab('workspace');
+    if(info.quality==='insufficient_coverage'){
+      document.querySelector('.disclosure p').textContent=`INSUFFICIENT COVERAGE · ${value.metrics.registered_cameras} of ${value.metrics.sfm_input_views} camera poses recovered from 128 genuine staged-scene photos. Partial artifact only; not a reconstruction of the full scene.`;
+      text('scene-kind','INCOMPLETE / REAL CAPTURES');
+    }
+    toast('128 real photographs processed. The partial result has insufficient coverage.',true);
   }catch(error){toast(error.message,true);}
 }
 $('public-dataset').addEventListener('click',loadPublicTest);
+
+function renderPublicGallery(manifest,id,base){
+  let gallery=$('public-photo-gallery');
+  if(!gallery){gallery=document.createElement('section');gallery.id='public-photo-gallery';gallery.className='panel-card public-photo-gallery';$('evidence-panel').append(gallery);}
+  gallery.replaceChildren();const heading=document.createElement('div');heading.className='card-heading';
+  const title=document.createElement('strong');title.textContent='CrossRow · genuine camera photographs / staged scene';heading.append(title);gallery.append(heading);
+  const note=document.createElement('p');note.className='panel-body';note.textContent='Local research viewing only · CC BY-NC-ND 4.0 · Rinaldi, Gauld, Nic Daeid · DOI 10.15132/10000293. These previews are recorded orientation/size derivatives of original photographs, not AI images or a successful 3D reconstruction.';gallery.append(note);
+  const grid=document.createElement('div');grid.className='public-photo-grid';
+  for(const frame of manifest.frames.filter(f=>f.decision==='selected')){
+    if(!/^view-\d+\.png$/.test(frame.image))continue;
+    const link=document.createElement('a');link.href=(base||`/api/jobs/${id}/assets/`)+`images/${frame.image}`;link.target='_blank';link.rel='noopener';
+    const image=document.createElement('img');image.src=link.href;image.loading='lazy';image.alt='CrossRow camera photograph '+frame.image;
+    const label=document.createElement('span');label.textContent=frame.image;link.append(image,label);grid.append(link);
+  }
+  gallery.append(grid);
+}

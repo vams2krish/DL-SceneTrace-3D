@@ -143,3 +143,13 @@ def test_low_disk_rejects_without_job_creation(client,monkeypatch):
     response=client.post('/api/jobs',headers={'x-scenetrace':'local-workbench'},files=[('files',(f'{i}.png',b'x')) for i in range(4)])
     assert response.status_code==507
     assert server.busy is False
+
+
+def test_local_public_artifact_is_separate_and_bounded(client):
+    result=server.STORE/'crossrow'/'calibration-rerun';result.mkdir(parents=True)
+    (result/'scene.json').write_text('{"schema_version":1}')
+    (result/'metrics.json').write_text('{"registered_cameras":3,"sfm_input_views":102}')
+    response=client.get('/api/public-test')
+    assert response.json()['quality']=='insufficient_coverage'
+    assert client.get(response.json()['scene']).status_code==200
+    assert client.get('/api/public-test/assets/%2e%2e%2fdownload-provenance.json').status_code==404

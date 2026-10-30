@@ -85,6 +85,7 @@ def reconstruct(source, output, *, interval=1.0, max_frames=160):
         source_views.append({"id": image.name, "image": "images/"+image.name, "split": "train", "used_for_rgb_fit":image.name in fit_names})
     scene, metrics = fit(scene, fit_cameras, targets, 96, 96)
     metrics.update(registered_cameras=model.num_reg_images(), selected_views=len(selected),
+                   quality_status='insufficient_coverage' if model.num_reg_images()<4 or model.num_reg_images()/len(training)<0.5 else 'unvalidated',
                    triangulated_points=len(points), rgb_fit_views=len(fit_cameras), sfm_input_views=len(training),
                    heldout_source_views=len(heldout), source_files=len(manifest['sources']),
                    matching=config['matching'], elapsed_seconds=time.monotonic()-started,

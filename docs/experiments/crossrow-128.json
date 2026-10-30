@@ -15,7 +15,6 @@
   "count": 128,
   "distinct_original_sha256": 128,
   "source_bytes": 433876024,
-  "api_status": "failed",
   "publication": "Numerical report only; source images and reconstruction remain local",
   "original_source_hashes": [
     {
@@ -531,5 +530,58 @@
       "sha256": "46abe0937388bb7be19ca5b0942f6843c60b33f83a3140c83ae1515d36926bf7"
     }
   ],
-  "failure": "COLMAP could not recover a connected scene. More overlap and texture are needed."
+  "initial_api_status": "failed",
+  "initial_failure": "COLMAP could not recover a connected scene. More overlap and texture are needed.",
+  "rerun_execution": "CLI on the same preserved original bytes; EXIF approximate focal prior and shared intrinsics",
+  "rerun_completed": true,
+  "quality_status": "insufficient_coverage",
+  "metrics": {
+    "train_mse_before": 0.2348035509436943,
+    "train_mse_after": 0.2329930072721507,
+    "solver_success": [
+      true,
+      true,
+      true
+    ],
+    "backend": "cpu-fixed-isotropic-gaussian-rgb-v1",
+    "optimized": [
+      "RGB"
+    ],
+    "fixed": [
+      "positions",
+      "isotropic scales",
+      "opacity"
+    ],
+    "registered_cameras": 3,
+    "selected_views": 128,
+    "triangulated_points": 39,
+    "rgb_fit_views": 3,
+    "sfm_input_views": 102,
+    "heldout_source_views": 26,
+    "source_files": 128,
+    "matching": "sequential overlap 12",
+    "elapsed_seconds": 255.73399999999674,
+    "heldout_evaluation": "Not available: held-out views are excluded from SfM; independent localization is not implemented.",
+    "geometry_evaluation": "Not available: no independent scale reference supplied.",
+    "scene_sha256": "60ea6d5ae124516fd9e88f83090ba788a12604ef4fe86ca14619ff0cacf997a4"
+  },
+  "camera_configuration": {
+    "camera_model": "SIMPLE_PINHOLE",
+    "camera_mode": "SINGLE",
+    "device": "cpu",
+    "focal_prior": "EXIF 35mm equivalent / 36 * long image side",
+    "max_gaussians": 1600,
+    "fit_resolution": 96,
+    "matching": "sequential overlap 12",
+    "max_features": 2048,
+    "fit_view_budget": 20,
+    "versions": {
+      "pycolmap": "4.2.1",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "Pillow": "13.0.0"
+    }
+  },
+  "conclusion": "128 genuine photographs were processed, but only 3 of 102 SfM input views registered with 39 triangulated points. This is a partial artifact, not a usable full-scene reconstruction.",
+  "independent_evaluation": "No held-out camera localization or surveyed geometric accuracy measured."
 }
