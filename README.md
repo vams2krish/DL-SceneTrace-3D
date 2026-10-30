@@ -1,12 +1,38 @@
 # SceneTrace 3D
 
+<img src="demo/dist/department-logo.svg" alt="Original SceneTrace Crime Scene Department shield and camera emblem" width="80">
+
+### Crime Scene Department · Forensic Reconstruction Unit
+
 ### Computer Vision · Gaussian Splatting · Forensic & Historical Reconstruction Research
 
 [Live review demo](https://scenetrace-3d-vams2krish.adam-vamshikrishna.chatgpt.site) · [Operations and security boundaries](docs/OPERATIONS.md) · [Dependency attribution](docs/THIRD_PARTY.md) · [Measured experiments](docs/experiments/sparse-input.json)
 
 **SceneTrace 3D turns overlapping photos or video frames into a source-linked 3D research artifact.** Inventory original media, select derivatives, estimate cameras with COLMAP, fit Gaussian colors, inspect the result in a WebGL viewer, separate observations from hypotheses, and export review records.
 
-> **Release v0.2.0: working research demo and local single-user service.** The hosted Site is a private-to-owner static review demo. Actual media reconstruction runs through the local Python service. This is not a certified forensic tool or a production-ready multiuser service. No real case data is published here.
+> **Release v0.3.0: department identity and large-photo research intake.** The hosted Site is a private-to-owner static review demo. Actual media reconstruction runs through the local Python service. This is not a certified forensic tool or a production-ready multiuser service. The department emblem is an original project identity, not an insignia of an actual police agency.
+
+## Department redesign and 128-photo live test
+
+The application now uses an original SVG shield/camera emblem, navy and evidence-gold colors, a Crime Scene Department masthead, and a forensic reconstruction desk. Large-photo intake accepts up to **200 files / 1 GiB**. Captures over 40 training views use bounded sequential matching; all registered camera poses are exported, while RGB fitting uses an explicitly recorded budget of up to 20 registered views.
+
+For the real-photo experiment, **128 original JPEGs (433,876,024 bytes, 128 distinct SHA-256 hashes)** were downloaded from [CrossRow](https://catalogue.eidf.ac.uk/dataset/eidf267-crossrow-multimodal-spatial-indoor-crime-scene-dataset), DOI [10.15132/10000293](https://doi.org/10.15132/10000293), by Vincenzo Rinaldi, Dylan Gauld, and Niamh Nic Daeid. These are genuine camera photographs of a **simulated crime scene**, not rendered images, AI-generated photographs, or evidence from an actual criminal case.
+
+Each downloaded JPEG was checked against its ZIP CRC32; individual SHA-256 values and the archive origin are recorded. The original archive is over 22 GB, so the downloader retrieves only the selected members using verified HTTP byte ranges. No copies are inserted to inflate the photo count.
+
+The [first live API attempt](docs/experiments/crossrow-128-first-attempt.json) accepted all 128 files but failed COLMAP initialization. It produced no valid model. The pipeline was then improved to retain approximate EXIF focal-length priors in the inventory and share camera intrinsics only when model, focal prior, and derivative dimensions agree. The [latest numerical report](docs/experiments/crossrow-128.json) records the actual latest outcome; it is not substituted with the synthetic room.
+
+The CrossRow resource is licensed **CC BY-NC-ND 4.0**. The photographs and adapted reconstruction remain in ignored local storage for noncommercial research; the public repository publishes code, attribution, original-source checksums, and numerical reports only. The hosted Site does not redistribute this scene. After a local run, open **http://127.0.0.1:8765/?dataset=crossrow** or select **Open public-photo test result**. A failed run displays its failure instead of a replacement scene.
+
+```powershell
+.\.venv\Scripts\python.exe scripts/download_crossrow.py
+# Keep the local server running in a separate terminal.
+.\.venv\Scripts\python.exe scripts/run_crossrow_test.py
+# Reuse preserved originals for a new job without uploading again:
+.\.venv\Scripts\python.exe scripts/run_crossrow_test.py --retry <previous-job-uuid>
+```
+
+**Showcase version note:** the six screenshots below document the working v0.2 interface and its synthetic experiments. They are retained as historical product captures, not represented as screenshots of the v0.3 department redesign or of the CrossRow scene. The current department identity is served by the live application.
 
 ![SceneTrace workbench running locally](docs/showcase/01-workbench.jpg)
 
@@ -77,7 +103,7 @@ Open **http://127.0.0.1:8765/**. On Linux/macOS, replace `.\.venv\Scripts\python
 
 1. Explore the synthetic room, select source thumbnails, and compare held-out views in **Validation**.
 2. Add an observation and a hypothesis in **Review notes**, reload, and export the review JSON.
-3. In **Source inventory**, choose 4–40 overlapping photos or a video. Up to 40 files and 90 MiB of source bytes are accepted by the local UI.
+3. In **Source inventory**, choose 4–200 overlapping photos or a video. Up to 200 files and 1 GiB of source bytes are accepted by the local UI.
 4. Submit **Run local reconstruction**. The worker requires at least four distinct, sufficiently sharp derivative views. Registration can fail when overlap or texture is inadequate.
 5. Inspect the returned scene, source records, and limitations. Download the worker review bundle. Failed jobs expose their reason instead of substituting a demo scene.
 
@@ -126,7 +152,7 @@ See [committed metrics](demo/dist/sample/metrics.json), [scene artifact](demo/di
 
 **Interpretation:** cameras, geometry, scale, and opacity are supplied by the synthetic generator. Only colors are fitted. The same renderer generates and evaluates observations; the score is an optimizer smoke test and does not predict real-scene reconstruction quality.
 
-### Camera recovery from rendered photographs
+### Camera recovery from rendered photographs (v0.2 baseline)
 
 These experiments use a separate seed-21 textured 3D-patch fixture. Camera poses are estimated from the image pixels through COLMAP; ground-truth poses are not passed to reconstruction.
 

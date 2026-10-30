@@ -3,6 +3,7 @@ import io
 import json
 from pathlib import Path
 import zipfile
+from types import SimpleNamespace
 
 import numpy as np
 import cv2
@@ -57,6 +58,16 @@ def test_corrupt_source_is_recorded(tmp_path):
     assert manifest['frames']==[]
 
 
+def test_camera_focal_prior_survives_derivative_conversion(tmp_path):
+    source=tmp_path/'input';source.mkdir()
+    exif=Image.Exif();exif[271]='Test camera';exif[272]='Model A';exif[34665]={41989:25}
+    image=Image.fromarray(np.random.default_rng(11).integers(0,256,(64,64,3),dtype=np.uint8))
+    image.save(source/'capture.jpeg',exif=exif)
+    result=inventory(source,tmp_path/'output')
+    assert result['sources'][0]['camera']['focal_35mm_equivalent']==25
+    assert result['sources'][0]['camera']['model']=='Model A'
+
+
 def test_gaussian_opacity_and_rgb_fit():
     r,t=look_at([0,1,4]);camera={'R':r.tolist(),'t':t.tolist(),'intrinsics':[20,20,12,12]}
     scene={'positions':[[-.25,.4,0],[.25,.7,.1]],'colors':[[.8,.2,.1],[.1,.8,.4]],'scales':[.2,.2],'opacity':[.8,.8]}
@@ -72,6 +83,7 @@ def test_gaussian_opacity_and_rgb_fit():
 @pytest.fixture
 def client(tmp_path,monkeypatch):
     monkeypatch.setattr(server,'STORE',tmp_path/'jobs');monkeypatch.setattr(server,'busy',False)
+    monkeypatch.setattr(server.shutil,'disk_usage',lambda path:SimpleNamespace(free=20*1024**3))
     with TestClient(server.app) as client:yield client
 
 
@@ -101,6 +113,11 @@ def test_job_success_and_traversal(client,monkeypatch):
     with zipfile.ZipFile(io.BytesIO(bundle.content)) as archive:
         assert 'scene.json' in archive.namelist()
         assert not any('originals' in p for p in archive.namelist())
+    retry=client.post(f'/api/jobs/{job}/retry',headers={'x-scenetrace':'local-workbench'},content=b'')
+    assert retry.status_code==202
+    assert retry.json()['id']!=job
+    assert retry.json()['retry_of']==job
+    assert (server.STORE/retry.json()['id']/'originals'/'source-0000.png').read_bytes()==b'fake'
 
 
 def test_failed_job_releases_queue(client,monkeypatch):
@@ -108,3 +125,21 @@ def test_failed_job_releases_queue(client,monkeypatch):
     assert response.status_code==415
     assert server.busy is False
     assert list(server.STORE.iterdir())==[]
+
+
+def test_128_photo_intake_is_not_truncated(client,monkeypatch):
+    async def worker(path):
+        assert len(list((path/'originals').glob('*.jpeg')))==128
+        server.save_json(path/'status.json',{'id':path.name,'status':'succeeded'})
+        server.busy=False
+    monkeypatch.setattr(server,'run_job',worker)
+    response=client.post('/api/jobs',headers={'x-scenetrace':'local-workbench'},files=[('files',(f'capture-{i}.jpeg',b'unit-test-only')) for i in range(128)])
+    assert response.status_code==202
+    assert client.get('/api/jobs/'+response.json()['id']).json()['status']=='succeeded'
+
+
+def test_low_disk_rejects_without_job_creation(client,monkeypatch):
+    monkeypatch.setattr(server.shutil,'disk_usage',lambda path:SimpleNamespace(free=100))
+    response=client.post('/api/jobs',headers={'x-scenetrace':'local-workbench'},files=[('files',(f'{i}.png',b'x')) for i in range(4)])
+    assert response.status_code==507
+    assert server.busy is False

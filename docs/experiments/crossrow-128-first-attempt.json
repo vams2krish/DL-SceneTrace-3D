@@ -1,0 +1,535 @@
+{
+  "dataset": "CrossRow: Multimodal Spatial Indoor Crime Scene Dataset",
+  "doi": "10.15132/10000293",
+  "creators": [
+    "Vincenzo Rinaldi",
+    "Dylan Gauld",
+    "Niamh Nic Daeid"
+  ],
+  "origin": "Real camera captures of a simulated indoor crime scene, not an actual criminal case",
+  "license": "CC BY-NC-ND 4.0",
+  "source_archive_url": "https://s3.eidf.ac.uk/eidf267-crossrow-multimodal-crime-scene-dataset/cmos/iphone-12-pro-max_26mm-equivalent.zip",
+  "source_etag": "\"264ab8735abbce00f981bd2b518a5304-2155\"",
+  "selection": "First 128 JPEG filenames in lexical capture order; original bytes",
+  "integrity": "Each extracted member verified against ZIP CRC32; individual SHA-256 recorded",
+  "count": 128,
+  "distinct_original_sha256": 128,
+  "source_bytes": 433876024,
+  "api_status": "failed",
+  "publication": "Numerical report only; source images and reconstruction remain local",
+  "original_source_hashes": [
+    {
+      "name": "iphone-12-pro-max_26mm_COLOUR_IMG_9420.jpeg",
+      "sha256": "32cf23510740e9f0e4ac21517e47b26a8df78a1863103c6275fcd28092bf0f95"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8854.jpeg",
+      "sha256": "f703ad6d1804a696620a487f401dc75ae57c7a2cbbe5714d2100cab478e6f794"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8855.jpeg",
+      "sha256": "18444bdca7ec6a3df1d71017c8f3714452512f54410fdc2c9edd2aee1f8d9c7e"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8856.jpeg",
+      "sha256": "6d0f9fbe383c2fdd3932f2555f8b15cf9c779642a824adbda5bc153c613540f2"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8857.jpeg",
+      "sha256": "43926866f6f3f06f5da9c7724f9478643e71c8c567ed6dbd5557a77346e2bda2"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8858.jpeg",
+      "sha256": "29e7d40973b294672222fc267e6058de2de6e4414a9cee1b70921346bbf203db"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8859.jpeg",
+      "sha256": "5343c7c682bdd80f30cafa8bfa226f394d64610c8284eb42c86608700ebed39a"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8860.jpeg",
+      "sha256": "60bb2d706066224d43f7011091bc0c3c76cbe8c0e85af26f2cde9c13e8501b47"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8861.jpeg",
+      "sha256": "46ae0dfe635a7dc7c678358ff3f6b9e75a7d5afa9e5c8536a6cae8a220c78980"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8862.jpeg",
+      "sha256": "1b1ad6880a9e77610b7f39d5ffecc6719b2c2f8ef819d46844e323615564cd91"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8863.jpeg",
+      "sha256": "c90b9aff4a1d5e8337cde7bccfabd47d69947838589ffbf4df6ceabceab9ce42"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8864.jpeg",
+      "sha256": "4a40d6bb2db8d33445ff246e8426b684b05dbd375a0fad2f7005644dde699280"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8865.jpeg",
+      "sha256": "bfd2b1c86dff56d0b0df9951074d6bb0f1d9ef69ab85510c5ad26d60e2623b3f"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8866.jpeg",
+      "sha256": "9add0685cd507ad7c28d2525a2269a256f99b6dcbc2bcc6fe4bb16ad226e9702"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8867.jpeg",
+      "sha256": "6f3b096c840187dab9b20eea7b91472dacb39f98598b62dcfad706a32590f0e3"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8868.jpeg",
+      "sha256": "d441cc3678acebed08e95b9d1a68a0864980791131641537855e4c8dd0cfcc42"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8869.jpeg",
+      "sha256": "9f975f3580d044249c41da39b05f9bb9e864c6e296a997d6da1ede0598cc1b73"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8870.jpeg",
+      "sha256": "ac120e3b66bb6b02ce871e1f9b34c072bfab774bd239a8f5a376218e633975ce"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8871.jpeg",
+      "sha256": "737a6dec68a89c23b05f78b951020618a5e23a912b357290f25e0dae8816d501"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8872.jpeg",
+      "sha256": "7427f6aa0721e51996291afc5f8614a2ee01b3c083a4eeebd944bb09cd0f4131"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8873.jpeg",
+      "sha256": "37ccb906ff1a369a740cc51abf0ec83f527e4940e49efdad09a9bba1a34f5931"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8874.jpeg",
+      "sha256": "356ac23e72caa90f4f13e7623e432b3a5bbc398ff3d09d1448a62eee6b24887a"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8875.jpeg",
+      "sha256": "f650ab98840bf00c392008fb28bfcd18d3d75afea4bc1f50714478dc880d1bcc"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8876.jpeg",
+      "sha256": "f457e01e15f735c1e32168a683be8039c5c3326ff1ab5dd6626dc02de7207a83"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8877.jpeg",
+      "sha256": "5e5ab47d66425b9a624e011221ad49c2c291888344ebc2645898033a5eaf35a2"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8878.jpeg",
+      "sha256": "17907643858b587d5aad485c682544f22e226a9d4802782c2f17c0f5cb7981ed"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8879.jpeg",
+      "sha256": "102ccd1b5bedb35f21944d84acead681da4cba270917566079f87da79d382b86"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8880.jpeg",
+      "sha256": "1e2673187aaba179746e9b8eb57df77d5060d95d4efe28a6667b1d8f0074cae6"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8881.jpeg",
+      "sha256": "be8666ccf76f1c3e2ccd173c233dacdf104084882a9eac05a1a42038453cee83"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8882.jpeg",
+      "sha256": "af3de44457b5c75e6ec704416d5fc0487bf5344774176efa1d842de6c7aefb7a"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8883.jpeg",
+      "sha256": "23bea131c7e4d91653af39ed3e30e4d7b9af534e9796a1a3113ed08fbbdfc3bc"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8884.jpeg",
+      "sha256": "7718994d790cab78607cec1db544c080313e14635ff4ba20ef624f6fc33d468c"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8885.jpeg",
+      "sha256": "f8b92bfc976eeb24ca749f1772549504f33566a1a84f3ae07bb72bb681e3c758"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8886.jpeg",
+      "sha256": "02fdc68105e2dfc27f2d338838a1a4eb70cdce55cff922f53f3f038c36f71a46"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8887.jpeg",
+      "sha256": "ef6392cdbc88504e9afeb9a2ae839de7ff029547b983f41fff274cb5879c8a54"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8888.jpeg",
+      "sha256": "5d7038fc6fc008aa653509210f08cbaf80a2ed9425f6898c0cc9063163b2049a"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8889.jpeg",
+      "sha256": "3cad09a5bdc2c986470100ecc48922efe87575a552af61ab876ea5ddb43df076"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8890.jpeg",
+      "sha256": "1810e672fb30d2026aade919adabb607aa0ee3da774228651e3d7ca933c6aaa6"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8891.jpeg",
+      "sha256": "bcc47061d137d167d524a3093019b43aed769784c8b7eacc060abe0d1d97e1e4"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8892.jpeg",
+      "sha256": "047779eb7016ca8d07d9304693819b7886454fe9615266e9b7cb0fe6a21fa52a"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8893.jpeg",
+      "sha256": "0eb017fb9991f1c08bf6768854bdcfb3ff4559fd1dffe259021e56d7896f0c95"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8894.jpeg",
+      "sha256": "2c595c440f3255d601be6240bd34480184725def18bf8804667c95054795cdd8"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8895.jpeg",
+      "sha256": "163cd8b7acc63f9468a9f9d11dfef11c0f94f22eb362480f08c0ee9dbfeb2f0b"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8896.jpeg",
+      "sha256": "7bbca3e1976b8ea2d94cf092f9497819500c74f2e1c5271d0377e0e81360f631"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8897.jpeg",
+      "sha256": "2ad7cd06d94ddaa03a6598fdc83d2d45e48fa29a81a6d5cda4044a5a7349b4e5"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8898.jpeg",
+      "sha256": "cdf4c047ce085b83135a29f0a1a2d8891a24dc2f0047e7603f7aa6e57f7d26ec"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8899.jpeg",
+      "sha256": "445a47d801d7c37a98f3c5264196ac95937be76ec73bac3b0275f7f8ddf29473"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8900.jpeg",
+      "sha256": "96d49a1c143314cef28efc578791df94df1e5e1369d6659ae446844b508a7845"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8901.jpeg",
+      "sha256": "9b8e37051c8b147ccadbcc0002f746aebd01b1c81a031b4457442c249c381f0e"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8902.jpeg",
+      "sha256": "d668922e9796ca7f672b7128e25b377c86eb20afae49870eb3d4ca5ad19759f0"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8903.jpeg",
+      "sha256": "b4249b0e60ffbfc0fd5a521de520b973eb06886f0036056e47596f8530cca103"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8904.jpeg",
+      "sha256": "6f74b7cb782933bdcb265ac3e20a1d4c545a669facf9d782b7b44f2648bcc340"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8905.jpeg",
+      "sha256": "ed3349a159a8e78b23089ab4f29716357fb543c98758b428aba9895f3df32b0b"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8906.jpeg",
+      "sha256": "6930e6b33cff30de3aab0add174b0155bb5c8694b39ee3050ef0c7acec465fe8"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8907.jpeg",
+      "sha256": "cc9e33cd764cb19fb9121e6e4d199a7c8a4c45ebafc4ca3363ef9b98eb8769fb"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8908.jpeg",
+      "sha256": "a606d54aeb886aa13329e91c0ba420e21054efcf56474ab3165dc45872dd6bb0"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8909.jpeg",
+      "sha256": "3395d315d91c9303f67a4e022292e485062bf79d2f67bf16d56a9d80683812d6"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8910.jpeg",
+      "sha256": "7ec59ba3b146e4b5da086d2b712a2dfa6cbdfb15437dbeeb6e9ee7629a9a7f0e"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8911.jpeg",
+      "sha256": "522779f16b4ebe18178011295357233041cbe8717b3a86becf77dc6f1aa5cef3"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8912.jpeg",
+      "sha256": "374922f6bb29756881c5ab0ecb4c2f84a51994ec546e46e4e84c3d09e4106aad"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8913.jpeg",
+      "sha256": "8dc930515d598595e69d2e32f311b6bfdc7a61f37f4ed0b0ea3f62324acbc553"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8915.jpeg",
+      "sha256": "f6cc56c0dcf214ec0e674b984a2014ef1c399299d79b2c8020e6dea22b4e61b5"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8916.jpeg",
+      "sha256": "a9d8d7836ad2afa2ed0206ada55ac0fff52a3e19b3991b4103a59ab0a1072cfb"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8917.jpeg",
+      "sha256": "c4df4d39bf34a763b7a185ae2f45c7c2830fcecbac9918efebc5c023d4dac843"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8918.jpeg",
+      "sha256": "2cc9b94d8752a3d1869d800d296b094eed8f00c9a23e67ee37c89fc20cc5be5e"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8919.jpeg",
+      "sha256": "fe177d2b2529253e7c6d82ff0e2c3435adf1fc4975290490c8e8354ec7db7eb0"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8920.jpeg",
+      "sha256": "5c02068605741043ef474b1be7e22e0debe1664b943ec0df81e26748c23be3d4"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8921.jpeg",
+      "sha256": "4c24a701582f241e6d793af0ad8d2f46148b83941e98d122e26c545d9a4b9caf"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8922.jpeg",
+      "sha256": "d288e3f1da5a148172097c8d58e14526d1b5f2d543bd85dcbfa1b4e77a287620"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8923.jpeg",
+      "sha256": "4ad250104b3d72d8c152898d2d24846a69d3e32224f060b36cce7de0e08d6d66"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8924.jpeg",
+      "sha256": "0e002e9a502ea8c3b36c3b69f434557d66351c190d017e9253847144cf5b5f17"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8925.jpeg",
+      "sha256": "ce9eab8d35f308ccd0dae2eb33fbdac15a169f93ae893fe492eb24bc52ea78b6"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8926.jpeg",
+      "sha256": "c4b25f54359b84e7fc6558d3bbc6b38c78910a1a5d0572508bf1db635873ec28"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8927.jpeg",
+      "sha256": "5936c8b292adc90ef740191444925839dfc10f19e742ae71a17bb058685f669c"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8928.jpeg",
+      "sha256": "9dec2d7bf40a7a1d5a9d8c3ef13055fedabe88627ffd7e36dfaf3d059960372e"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8929.jpeg",
+      "sha256": "d752c5b91e606152a251a27ff5278ff8fb98b3a61a12901248f15648233def95"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8930.jpeg",
+      "sha256": "790b05a3898d3903892d5d70e7e2305f3873803dca2f0f014a7f9ec5e5101db1"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8931.jpeg",
+      "sha256": "645894c1333ff61abedaf3fe04d56482aeadf92442493fbce853d35ac3f4d41d"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8932.jpeg",
+      "sha256": "f698a9824329a924810d21600551011d21c3a573d5fc638bf19e49cd4dee2be7"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8933.jpeg",
+      "sha256": "26a765688976274069bf4ec2c0ec7293caf3a73f22c404bafb5ae9c58f9d9e2f"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8934.jpeg",
+      "sha256": "b484ada6d441cfe6f24f0c0169b5ba45d2a47331fe868922e931f9421a832015"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8935.jpeg",
+      "sha256": "8f4ff06df56c90c612aac794cbbd66f8e98a6b7ac871f9895074f1e822ccf9d0"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8936.jpeg",
+      "sha256": "5615f626a757bd428bd5ac6cc31bb86d4d1cb81fec40b3f0c11454a2bb698781"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8937.jpeg",
+      "sha256": "2b50a34ed416ae88fd13fdd1e20cbf5aafff0638980ba6e84bcab8ae80bf7519"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8938.jpeg",
+      "sha256": "0920d13d7a7884e0d655aa5645f8dff11e4bafad46d9c2d6ee47f4bf93a95228"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8939.jpeg",
+      "sha256": "43da1a8e8e4327a7226178e4e0a8ebdd1b3b85a1dc4aeb23411b63fd383ecebc"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8940.jpeg",
+      "sha256": "c027d3d731af2c991e23ccb56341752836cc0e086e3c51ece464ed61cccd1923"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8941.jpeg",
+      "sha256": "a5a06e30791f61f3a75aa4d0e7c7e8d35649c83fe1cfc5498d8ab4e7c965d8e3"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8942.jpeg",
+      "sha256": "7218230b4b73fecc8c44810968c4299d75bf9a02de79749ec48436bffd0f8b9e"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8943.jpeg",
+      "sha256": "c57fc0897dc9ac2c5bbb9f83d68085954ce960b2802ee5c5237d347b7c7897d9"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8944.jpeg",
+      "sha256": "e17a584083cb1bd3cdccedeb81236668db9845a9a3206e21592e4cc21abdba85"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8945.jpeg",
+      "sha256": "c29d0558e1f91dfd3534a4c5cd2d05cd3f17f0bdc5e67cb32043eba9d317fd18"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8946.jpeg",
+      "sha256": "1e0919a202062444e88aa49a39e600148279c84955e5383683afe4604d345d82"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8947.jpeg",
+      "sha256": "e701330e56f40f50b25be488970f21a44b2a9cd5c2cb05b50bc772e71879d4bc"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8948.jpeg",
+      "sha256": "5253cccad454c5a111b8055d8327d41e0cf5ada20d51fc2842c74c7b862d63f0"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8949.jpeg",
+      "sha256": "3ee7ca1d3d3fec8d65509870e7aca8e489f477b5b9fd9d4021805cb156aca2fa"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8950.jpeg",
+      "sha256": "9451194cfbc5f5561e1e19396bb4e2a27a1189086bfad06c772ee3b9176411b4"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8951.jpeg",
+      "sha256": "4fedd2769269011de674b7d291703a18f0ab157ca5a2d87714889952a86672f4"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8952.jpeg",
+      "sha256": "85d3fe2ef287991f548dbac87ffcf7b9635ebab5878638b77bcfea25f8157d98"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8953.jpeg",
+      "sha256": "039816d8392d7c9854362cf972b67713ca6953157beeed887a53bb2bdf83fc18"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8954.jpeg",
+      "sha256": "4386d6afbab0d11beff9449b111b35c83f48e3e4581b5b8595b3f106b481bfa1"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8955.jpeg",
+      "sha256": "6e2b30aa0d7b244486f75fe7fcfa3a1c134cc7e2d16c44039e55709745d58de9"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8956.jpeg",
+      "sha256": "0fc2642d0bd76c914b0f527daf2522ca4c6aaca866a9d981870fef3c1730b0fa"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8957.jpeg",
+      "sha256": "b27cc74cde4082d4fc1e07786c6024af4a84fcd7175ad801646a959efc835905"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8958.jpeg",
+      "sha256": "93ba26335c695f469f658203e011765d62fb1c49f470bd08bb366354e7a0fa3a"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8959.jpeg",
+      "sha256": "3ecf6ffadbcef7812d79822919aeb38de8f09743a6dce062985d4c196ccb67cf"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8960.jpeg",
+      "sha256": "e2cb1bfb9f889db96b298aeb6902fdb75c000d8011bfc969cef1a8499bdca7f0"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8961.jpeg",
+      "sha256": "c223eac095969e3f5072381a5fa3682689965552e7a3737775e314d3ba2c9226"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8962.jpeg",
+      "sha256": "28753a9390a3b0ace85bc592d4bba60a63f17d68f638d6ad0bd1759d391e1341"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8963.jpeg",
+      "sha256": "35df3c06d4bbbd174a2360b4569e07ca261ee82684a842552ab0008d928063ed"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8964.jpeg",
+      "sha256": "f69819ee5d162ea3fb07a993723caddb28b767b465391279df4296c3c0fb2947"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8965.jpeg",
+      "sha256": "0ccf68befa41d0daef14bca14bc750022fbb7c16ca838088cf94e6ff35f6f470"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8966.jpeg",
+      "sha256": "578d792b32fdadf491a8aaaf932b5a0aa19d025e40b3c68b1ae09cdd06473d1e"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8967.jpeg",
+      "sha256": "a7eec467fbafae5555304d00067a27d3d654c5a3cd387b50d00f974bf3c721f3"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8968.jpeg",
+      "sha256": "9bc8abebe5a67a16c4aa668e77562c19c4af6e8e4354f15640381158c536724d"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8969.jpeg",
+      "sha256": "f2302c6252bc2ccd1b5e4eb4ddd0b28e7a7c5bd9bb3ec7cef013fced0fa9e092"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8970.jpeg",
+      "sha256": "39629455f51805d01fee0ebad40c8d1106784458df282d496df575ef998b2be6"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8971.jpeg",
+      "sha256": "71108ec288c4f693eb4ba7a2ad06e9490be3e45c0ba9ebbaaf61b3d3851984a8"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8972.jpeg",
+      "sha256": "1333c78c6c59db6f1c4366c84becbd3ec87994296f09625da65273791e3158dd"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8973.jpeg",
+      "sha256": "04e4e0d78266c3814ed2d8fe6e789c9c0106b20a727c534b1938d8784f2e0a97"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8974.jpeg",
+      "sha256": "1e9a4bd2143327fe25d6353787daf445fa9b60c3db97a27292f1a77a2aa5d6cf"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8975.jpeg",
+      "sha256": "8bf65638c97883fdc016b42f26103d8ca5024b70c402d9b2e2eafb53318a1bcf"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8976.jpeg",
+      "sha256": "1f5e24253026d6e7446e7196fc07d3b4757b9eb8b2db0f504235700bca011b92"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8977.jpeg",
+      "sha256": "c1c5b8a8d757f9fedfc09968e0f2d0ebbc6912636a9ec5506457e3d356efdbef"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8978.jpeg",
+      "sha256": "93892b837ef0a7b00ac998cb6b06a9edb18d02df52826d4095664dacd4c7088e"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8979.jpeg",
+      "sha256": "14d5f1a224afd9df3a426e4f2b00a2f0509f769ab08f71651e5d4e690e907df1"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8980.jpeg",
+      "sha256": "da3e0c560fb100c906799f80ed1a452b93e4601957e3163142fbf488e25bd2a4"
+    },
+    {
+      "name": "iphone-12-pro-max_26mm_IMG_8981.jpeg",
+      "sha256": "46abe0937388bb7be19ca5b0942f6843c60b33f83a3140c83ae1515d36926bf7"
+    }
+  ],
+  "failure": "COLMAP could not recover a connected scene. More overlap and texture are needed."
+}

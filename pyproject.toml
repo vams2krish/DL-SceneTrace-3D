@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "scenetrace3d"
-version = "0.2.0"
+version = "0.3.0"
 description = "Provenance-first local 3D Gaussian reconstruction research workbench"
 requires-python = ">=3.11,<3.15"
 dependencies = ["numpy>=2,<3", "scipy>=1.14,<2", "Pillow>=11,<14", "opencv-python-headless>=4.10,<6", "pycolmap>=4.0,<5", "fastapi>=0.115,<1", "uvicorn>=0.30,<1", "python-multipart>=0.0.20,<1"]

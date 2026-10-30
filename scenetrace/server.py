@@ -35,7 +35,7 @@ async def lifespan(app):
     await asyncio.gather(*TASKS, return_exceptions=True)
 
 
-app = FastAPI(title="SceneTrace 3D local workbench", version="0.2.0", lifespan=lifespan)
+app = FastAPI(title="SceneTrace Crime Scene Department local workbench", version="0.3.0", lifespan=lifespan)
 
 
 @app.middleware("http")
@@ -50,8 +50,8 @@ async def boundary(request: Request, call_next):
         if origin and origin != f"{request.url.scheme}://{request.url.netloc}":
             return Response("Cross-origin mutation denied", status_code=403)
         length = request.headers.get("content-length")
-        if length is None or not length.isdigit() or int(length) > 100 * 1024 * 1024:
-            return Response("Content-Length required; maximum request 100 MiB", status_code=413)
+        if length is None or not length.isdigit() or int(length) > 1100 * 1024 * 1024:
+            return Response("Content-Length required; maximum request 1100 MiB", status_code=413)
     response = await call_next(request)
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["Referrer-Policy"] = "no-referrer"
@@ -78,8 +78,8 @@ async def run_job(path):
     save_json(path / "status.json", {"id": path.name, "status": "running"})
     try:
         with open(path / "worker.log", "wb") as log:
-            proc = await asyncio.create_subprocess_exec(sys.executable, "-m", "scenetrace.cli", "reconstruct", str(path / "originals"), str(path / "result"), stdout=log, stderr=log, cwd=ROOT)
-            await asyncio.wait_for(proc.wait(), timeout=600)
+            proc = await asyncio.create_subprocess_exec(sys.executable, "-m", "scenetrace.cli", "reconstruct", str(path / "originals"), str(path / "result"), "--max-frames", "200", stdout=log, stderr=log, cwd=ROOT)
+            await asyncio.wait_for(proc.wait(), timeout=1800)
         if proc.returncode:
             failure = path / "result" / "failure.json"
             message = json.loads(failure.read_text())["error"] if failure.exists() else "Worker failed; inspect worker.log locally"
@@ -99,7 +99,18 @@ async def run_job(path):
 
 @app.get("/api/health")
 def health():
-    return {"status": "ok", "mode": "local-single-user", "version": "0.2.0", "busy": busy}
+    return {"status": "ok", "mode": "local-single-user", "version": "0.3.0", "busy": busy,
+            "public_test":(STORE/'crossrow'/'latest-job.json').exists()}
+
+
+@app.get("/api/public-test")
+def public_test():
+    pointer=STORE/'crossrow'/'latest-job.json'
+    if not pointer.exists():
+        raise HTTPException(404,"No public-photo experiment has been run locally")
+    record=json.loads(pointer.read_text())
+    path=job_path(record['id'])
+    return dict(json.loads((path/'status.json').read_text()),dataset=record['dataset'],license=record['license'])
 
 
 @app.post("/api/jobs", status_code=202)
@@ -108,10 +119,10 @@ async def create_job(files: list[UploadFile] = File(...)):
     if busy:
         raise HTTPException(409, "A reconstruction is already running")
     has_video = any(Path(f.filename or "").suffix.lower() in VIDEO_EXTENSIONS for f in files)
-    if not 1 <= len(files) <= 40 or (len(files) < 4 and not has_video):
-        raise HTTPException(422, "Submit 4–40 photos, or 1–40 files including a video")
-    if shutil.disk_usage(STORE).free < 1024**3:
-        raise HTTPException(507, "At least 1 GiB free disk space required")
+    if not 1 <= len(files) <= 200 or (len(files) < 4 and not has_video):
+        raise HTTPException(422, "Submit 4–200 photos, or 1–200 files including a video")
+    if shutil.disk_usage(STORE).free < 3*1024**3:
+        raise HTTPException(507, "At least 3 GiB free disk space required")
     busy = True
     path = STORE / str(uuid.uuid4())
     (path / "originals").mkdir(parents=True)
@@ -127,8 +138,8 @@ async def create_job(files: list[UploadFile] = File(...)):
             with open(path / "originals" / safe_name, "wb") as out:
                 while chunk := await upload.read(1024*1024):
                     total += len(chunk)
-                    if total > 90*1024*1024:
-                        raise HTTPException(413, "Total source limit is 90 MiB")
+                    if total > 1024*1024*1024:
+                        raise HTTPException(413, "Total source limit is 1 GiB")
                     out.write(chunk)
         save_json(path / "submitted-names.json", names)
         save_json(path / "status.json", {"id": path.name, "status": "queued"})
@@ -148,6 +159,32 @@ async def create_job(files: list[UploadFile] = File(...)):
 @app.get("/api/jobs/{job_id}")
 def status(job_id: str):
     return json.loads((job_path(job_id) / "status.json").read_text())
+
+
+@app.post("/api/jobs/{job_id}/retry",status_code=202)
+async def retry_job(job_id: str):
+    """Reuse preserved originals without uploading hundreds of MiB again."""
+    global busy
+    previous=job_path(job_id)
+    previous_status=json.loads((previous/'status.json').read_text())
+    if busy or previous_status['status'] in ('queued','running'):
+        raise HTTPException(409,'Wait for the current reconstruction to finish')
+    path=STORE/str(uuid.uuid4())
+    (path/'originals').mkdir(parents=True)
+    busy=True
+    try:
+        for original in (previous/'originals').iterdir():
+            if original.is_file():
+                # Same-volume hardlinks preserve bytes and avoid data duplication.
+                os.link(original,path/'originals'/original.name)
+        shutil.copyfile(previous/'submitted-names.json',path/'submitted-names.json')
+        save_json(path/'status.json',{'id':path.name,'status':'queued','retry_of':job_id})
+        task=asyncio.create_task(run_job(path));TASKS.add(task);task.add_done_callback(TASKS.discard)
+        return {'id':path.name,'status':'queued','retry_of':job_id}
+    except BaseException:
+        busy=False
+        shutil.rmtree(path)
+        raise
 
 
 @app.get("/api/jobs/{job_id}/assets/{asset:path}")

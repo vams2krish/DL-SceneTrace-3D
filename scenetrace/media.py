@@ -86,6 +86,13 @@ def inventory(source, output, *, interval=1.0, max_frames=80, min_sharpness=8.0)
                 with Image.open(path) as image:
                     if image.width * image.height > MAX_PIXELS:
                         raise ValueError("Image exceeds pixel limit")
+                    exif=image.getexif()
+                    exif_photo=exif.get_ifd(34665) if 34665 in exif else {}
+                    equivalent=exif_photo.get(41989)
+                    if equivalent and 5<=float(equivalent)<=2000:
+                        record['camera']={'make':str(exif.get(271,'')), 'model':str(exif.get(272,'')),
+                                          'focal_35mm_equivalent':float(equivalent),
+                                          'calibration_status':'EXIF approximate prior; not independent calibration'}
                     derivative(np.array(ImageOps.exif_transpose(image).convert("RGB")), record)
             else:
                 cap = cv2.VideoCapture(str(path))

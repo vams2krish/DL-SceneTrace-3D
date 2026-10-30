@@ -12,7 +12,7 @@ def main():
         sub.add_argument("source", type=Path)
         sub.add_argument("output", type=Path)
         sub.add_argument("--interval", type=float, default=1.0)
-        sub.add_argument("--max-frames", type=int, default=40)
+        sub.add_argument("--max-frames", type=int, default=160)
     sub = commands.add_parser("demo")
     sub.add_argument("output", type=Path)
     sub = commands.add_parser("serve")
